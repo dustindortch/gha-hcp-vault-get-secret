@@ -41,6 +41,6 @@ runs:
         ${{ inputs.app_id != '' && format(' --app-id={0}', inputs.inputs.app_id) || '' }}
         ${{ inputs.organization_id != '' && format(' --organization-id={0}', inputs.organization_id) || '' }}
         ${{ inputs.project_id != '' && format(' --project-id={0}', inputs.project_id) || '' }});
-        echo "${{ $inputs.mask == 'true' && format('::add-mask::${0}', inputs.name) || '' }}";
+        echo "${{ inputs.mask == 'true' && format('::add-mask::${0}', inputs.name) || '' }}";
         echo "secret=$${{ inputs.name }}" >> $GITHUB_OUTPUT
 ...
