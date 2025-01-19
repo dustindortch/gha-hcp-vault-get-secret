@@ -42,5 +42,5 @@ runs:
         ${{ inputs.organization_id != '' && format(' --organization-id={0}', inputs.organization_id) || '' }}
         ${{ inputs.project_id != '' && format(' --project-id={0}', inputs.project_id) || '' }});
         echo "${{ inputs.mask == 'true' && format('::add-mask::${0}', inputs.name) || '' }}";
-        echo "secret=$${{ inputs.name }}" >> $GITHUB_OUTPUT
+        echo "secret=${{ inputs.name }}" >> $GITHUB_OUTPUT
 ...
