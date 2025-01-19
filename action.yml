@@ -39,7 +39,8 @@ runs:
         secret=$(hcp vault-secrets secrets open "${{ inputs.name }}"
         ${{ inputs.app != '' && format('--app={0}', inputs.app) || '' }}
         ${{ inputs.organization_id != '' && format('--organization-id={0}', inputs.organization_id) || '' }}
-        ${{ inputs.project != '' && format('--project={0}', inputs.project) || '' }});
+        ${{ inputs.project != '' && format('--project={0}', inputs.project) || '' }}
+        --format=json | jq -r '.static_version.value');
         echo "::add-mask::$secret";
         echo "secret=$secret" >> $GITHUB_OUTPUT
 ...
