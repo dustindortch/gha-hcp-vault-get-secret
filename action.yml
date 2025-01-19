@@ -37,7 +37,7 @@ runs:
       name: Get Secret
       shell: bash
       run: >
-        secret=$(hcp vault-secrets secrets open ${{ inputs.name }}
+        secret=$(hcp vault-secrets secrets open \"${{ inputs.name }}\"
         ${{ inputs.app != '' && format('--app={0}', inputs.app) || '' }}
         ${{ inputs.organization_id != '' && format('--organization-id={0}', inputs.organization_id) || '' }}
         ${{ inputs.project != '' && format('--project={0}', inputs.project) || '' }});
