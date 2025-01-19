@@ -4,9 +4,9 @@ name: HCP Vault Get Secret
 description: Retrievs a secret from HCP Vault Secrets platform
 
 inputs:
-  app_id:
+  app:
     default: ''
-    description: 'HCP App ID (optional, if bound to auth token)'
+    description: 'HCP App (optional, if bound to auth token)'
     required: false
   mask:
     default: 'true'
@@ -20,9 +20,9 @@ inputs:
     default: ''
     description: 'HCP Organization ID (optional, if bound to auth token)'
     required: false
-  project_id:
+  project:
     default: ''
-    description: 'HCP Project ID (optional, if bound to auth token)'
+    description: 'HCP Project (optional, if bound to auth token)'
     required: false
 
 outputs:
@@ -38,9 +38,9 @@ runs:
       shell: bash
       run: >
         secret=$(hcp vault-secrets secrets open
-        ${{ inputs.app_id != '' && format(' --app-id={0}', inputs.inputs.app_id) || '' }}
+        ${{ inputs.app != '' && format(' --app={0}', inputs.inputs.app) || '' }}
         ${{ inputs.organization_id != '' && format(' --organization-id={0}', inputs.organization_id) || '' }}
-        ${{ inputs.project_id != '' && format(' --project-id={0}', inputs.project_id) || '' }});
+        ${{ inputs.project != '' && format(' --project-id={0}', inputs.project) || '' }});
         echo "::add-mask::$secret";
         echo "secret=$secret" >> $GITHUB_OUTPUT
 ...
