@@ -1,0 +1,1 @@
+# gha-hcp-vault-get-secret

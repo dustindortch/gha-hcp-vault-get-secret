@@ -1,0 +1,45 @@
+---
+author: Dustin Dortch
+name: HCP Vault Get Secret
+description: Retrievs a secret from HCP Vault Secrets platform
+
+inputs:
+  app_id:
+    default: ''
+    description: 'HCP App ID (optional, if bound to auth token)'
+    required: false
+  mask:
+    default: 'true'
+    description: 'Mask secret value in logs'
+    required: false
+  name:
+    description: 'Secret name'
+    required: true
+  organization_id:
+    default: ''
+    description: 'HCP Organization ID (optional, if bound to auth token)'
+    required: false
+  project_id:
+    default: ''
+    description: 'HCP Project ID (optional, if bound to auth token)'
+    required: false
+
+outputs:
+  secret:
+    description: 'Secret value'
+    value: ${{ steps.get-secret.outputs.SECRET }}
+
+runs:
+  using: composite
+  steps:
+    - id: get-secret
+      name: Get Secret
+      shell: bash
+      run: |
+        ${{ inputs.name }}=$(hcp vault-secrets secrets open \
+        ${{ inputs.app_id != '' && format(' --app-id={0}', inputs.inputs.app_id) || ''}} \
+        ${{ inputs.organization_id != '' && format('--organization-id={0}', inputs.inputs.organization_id) || ''}} \
+        ${{ inputs.project_id != '' && format('--project-id={0}', inputs.inputs.project_id) || ''}})
+        echo "${{ $inputs.mask == 'true' && format('::add-mask::${0}', inputs.name) || '' }}"
+        echo "SECRET=$${{ inputs.name }}" >> $GITHUB_OUTPUT
+...
