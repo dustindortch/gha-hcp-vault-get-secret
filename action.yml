@@ -13,6 +13,7 @@ inputs:
     description: 'Mask secret value in logs'
     required: false
   name:
+    default: ''
     description: 'Secret name'
     required: true
   organization_id:
