@@ -28,7 +28,7 @@ inputs:
 outputs:
   secret:
     description: 'Secret value'
-    value: ${{ steps.get-secret.outputs.SECRET }}
+    value: ${{ steps.get-secret.outputs.secret }}
 
 runs:
   using: composite
@@ -36,11 +36,11 @@ runs:
     - id: get-secret
       name: Get Secret
       shell: bash
-      run: |
-        ${{ inputs.name }}=$(hcp vault-secrets secrets open \
-        ${{ inputs.app_id != '' && format(' --app-id={0}', inputs.inputs.app_id) || ''}} \
-        ${{ inputs.organization_id != '' && format('--organization-id={0}', inputs.inputs.organization_id) || ''}} \
-        ${{ inputs.project_id != '' && format('--project-id={0}', inputs.inputs.project_id) || ''}})
-        echo "${{ $inputs.mask == 'true' && format('::add-mask::${0}', inputs.name) || '' }}"
-        echo "SECRET=$${{ inputs.name }}" >> $GITHUB_OUTPUT
+      run: >
+        secret=$(hcp vault-secrets secrets open
+        ${{ inputs.app_id != '' && format(' --app-id={0}', inputs.inputs.app_id) || '' }}
+        ${{ inputs.organization_id != '' && format(' --organization-id={0}', inputs.organization_id) || '' }}
+        ${{ inputs.project_id != '' && format(' --project-id={0}', inputs.project_id) || '' }});
+        echo "${{ $inputs.mask == 'true' && format('::add-mask::${0}', inputs.name) || '' }}";
+        echo "secret=$${{ inputs.name }}" >> $GITHUB_OUTPUT
 ...
